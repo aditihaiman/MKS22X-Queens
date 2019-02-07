@@ -1,6 +1,9 @@
 public class QueenBoard {
 
   public static void main(String[] args) {
+    QueenBoard board1 = new QueenBoard(10);
+    board1.addQueen(5, 5);
+    System.out.println(board1);
 
   }
 
