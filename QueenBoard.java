@@ -4,6 +4,8 @@ public class QueenBoard {
     QueenBoard board1 = new QueenBoard(10);
     board1.addQueen(5, 5);
     System.out.println(board1);
+    board1.removeQueen(5, 5);
+    System.out.println(board1);
 
   }
 
