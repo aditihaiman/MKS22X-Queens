@@ -4,8 +4,10 @@ public class QueenBoard {
     QueenBoard board1 = new QueenBoard(10);
     board1.addQueen(5, 5);
     System.out.println(board1);
-    board1.removeQueen(5, 5);
+    board1.addQueen(2, 5);
+    board1.addQueen(0, 0);
     System.out.println(board1);
+    System.out.println(board1.queenInDanger(0, 0));
 
   }
 
@@ -68,8 +70,8 @@ public class QueenBoard {
 
 
   private boolean queenInDanger(int r, int c) {
-    for (int x = r; x < board.length; x++) {
-      for (int y = c; y < board[0].length; y++) {
+    for (int x = 0; x < board.length; x++) {
+      for (int y = 0; y < board[0].length; y++) {
         if (x!=r&&board[x][c]==1) return true;
         if (y!=c&&board[r][y]==1) return true;
         if (x!=r && y!=c && (c-y)==(r-x) && board[x][y]==1) return true;
