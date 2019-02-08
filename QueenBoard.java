@@ -60,13 +60,23 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions(){
+    int output = 0;
     if (!isEmpty()) throw new IllegalStateException();
-    return 0;
+    return output;
   }
 
 
 
-
+  private boolean queenInDanger(int r, int c) {
+    for (int x = r; x < board.length; x++) {
+      for (int y = c; y < board[0].length; y++) {
+        if (x!=r&&board[x][c]==1) return true;
+        if (y!=c&&board[r][y]==1) return true;
+        if (x!=r && y!=c && (c-y)==(r-x) && board[x][y]==1) return true;
+      }
+    }
+    return false;
+  }
 
   private boolean addQueen(int r, int c) {
     board[r][c] = 1;
