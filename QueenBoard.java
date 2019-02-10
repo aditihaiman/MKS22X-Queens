@@ -5,16 +5,11 @@ public class QueenBoard {
 
   public static void main(String[] args) {
     QueenBoard board1 = new QueenBoard(10);
-    //board1.addQueen(5, 5);
+    board1.addQueen(5, 5);
     System.out.println(board1);
-    board1.addQueen(2, 5);
-    board1.addQueen(3, 6);
-    //board1.addQueen(0, 0);
+    board1.addQueen(6, 7);
     System.out.println(board1);
-    //System.out.println(board1.queenInDanger(2, 5));
-    board1 = new QueenBoard(4);
-    //System.out.println(board1.solve(0,0));
-
+    System.out.println(board1.queenInDanger(7));
   }
 
   private int[] board;
@@ -57,6 +52,7 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve() {
+    if (!isEmpty()) throw new IllegalStateException();
     QueenBoard board1 = new QueenBoard(board.length);
     return solveHelp(board1, 0);
   }
@@ -106,11 +102,17 @@ public class QueenBoard {
   }
 
 
+  private boolean isEmpty() {
+    for (int x = 0; x < board.length; x++) {
+      if (board[x]!= -1) return false;
+    }
+    return true;
+  }
 
   private boolean queenInDanger(int idx) {
      for (int x = 0; x < board.length; x++) {
-       if (board[x]==board[idx]) return true;
-       if (Math.abs(board[idx] - board[x])==x) return true;
+       if (board[x]!=-1&&board[x]==board[idx]) return true;
+       if (board[x]!=-1&&Math.abs(board[idx] - board[x])==Math.abs(idx-x)) return true;
      }
     //   for (int y = 0; y < board[0].length; y++) {
     //     if (x!=r&&board[x][c]==1) return true;
