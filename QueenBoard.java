@@ -5,17 +5,18 @@ public class QueenBoard {
 
   public static void main(String[] args) {
     QueenBoard board1 = new QueenBoard(10);
-    board1.addQueen(5, 4);
+    // board1.addQueen(5, 4);
+    //  System.out.println(board1);
+    //  board1.addQueen(6, 9);
     // System.out.println(board1);
-    // board1.addQueen(6, 7);
-    //System.out.println(board1);
-    //System.out.println(board1.queenInDanger(4));
+    // System.out.println(board1.queenInDanger(9));
     //System.out.println(board1.toString1());
-    board1 = new QueenBoard(4);
+    board1 = new QueenBoard(10);
     // board1.addQueen(0, 0);
     // board1.addQueen(1, 0);
-    System.out.println(board1.solve());
-    System.out.println(board1);
+    //System.out.println(board1.solve());
+    //System.out.println(board1);
+    System.out.println(board1.countSolutions());
 
   }
 
@@ -85,28 +86,26 @@ public class QueenBoard {
   */
 
   public int countSolutions() {
+    if (!isEmpty()) throw new IllegalStateException();
     QueenBoard board1 = new QueenBoard(board.length);
     return countSolutionsHelp(board1, 0);
   }
-  public int countSolutionsHelp(QueenBoard newboard, int k){
-    if (k==board.length) return 1;
+
+  public static int countSolutionsHelp(QueenBoard newboard, int k){
+    if (k==newboard.board.length){
+      //System.out.println(newboard);
+      return 1;
+    }
     int total = 0;
-    for (int x = k; x < board.length; x++) {
-      newboard = new QueenBoard(board.length);
-      newboard.addQueen(k, x);
-      if (!queenInDanger(x)) total+= countSolutionsHelp(newboard, k+1);
+    for (int x = 0; x < newboard.board.length; x++) {
+      newboard.addQueen(x, k);
+      if (!newboard.queenInDanger(k)) total+= countSolutionsHelp(newboard, k+1);
+      newboard.removeQueen(k);
     }
     return total;
   }
 
-
-  private QueenBoard copy() {
-    QueenBoard copy = new QueenBoard(board.length);
-    for(int x = 0; x < board.length; x++) {
-      copy.board[x] = this.board[x];
-    }
-    return copy;
-  }
+  //---------------- HELPER METHODS -----------------//
 
   private boolean isEmpty() {
     for (int x = 0; x < board.length; x++) {
@@ -132,15 +131,5 @@ public class QueenBoard {
     board[r] = -1;
     return true;
   }
-
-  // private int countQueens() {
-  //   int output = 0;
-  //   for (int x = 0; x < board.length; x++) {
-  //     for (int y = 0; y < board[x].length; y++) {
-  //       if (board[x][y] == 1) output++;
-  //     }
-  //   }
-  //   return output;
-  // }
 
 }
