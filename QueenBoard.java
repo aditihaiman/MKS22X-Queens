@@ -9,7 +9,10 @@ public class QueenBoard {
     System.out.println(board1);
     board1.addQueen(6, 7);
     System.out.println(board1);
-    System.out.println(board1.queenInDanger(7));
+    //System.out.println(board1.queenInDanger(7));
+    board1 = new QueenBoard(4);
+    System.out.println(board1.solve());
+
   }
 
   private int[] board;
@@ -54,15 +57,16 @@ public class QueenBoard {
   public boolean solve() {
     if (!isEmpty()) throw new IllegalStateException();
     QueenBoard board1 = new QueenBoard(board.length);
-    return solveHelp(board1, 0);
+    return solveHelp(board1, board.length);
   }
 
   public boolean solveHelp(QueenBoard newboard, int k){
     if (k==board.length) return true;
+    System.out.println(newboard);
     for (int x = board.length-k; x < board.length; x++) {
-      newboard = new QueenBoard(board.length);
+      newboard.copy();
       newboard.addQueen(k, x);
-      if (!queenInDanger(x)) return solveHelp(newboard, k+1);
+      if (!queenInDanger(x)) return solveHelp(newboard, k-1);
     }
     return false;
     //if (countQueens()!=0) throw new IllegalStateException();
@@ -101,6 +105,14 @@ public class QueenBoard {
     return total;
   }
 
+
+  private QueenBoard copy() {
+    QueenBoard copy = new QueenBoard(board.length);
+    for(int x = 0; x < board.length; x++) {
+      copy.board[x] = this.board[x];
+    }
+    return copy;
+  }
 
   private boolean isEmpty() {
     for (int x = 0; x < board.length; x++) {
