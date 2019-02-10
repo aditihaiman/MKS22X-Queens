@@ -5,13 +5,17 @@ public class QueenBoard {
 
   public static void main(String[] args) {
     QueenBoard board1 = new QueenBoard(10);
-    board1.addQueen(5, 5);
-    System.out.println(board1);
-    board1.addQueen(6, 7);
-    System.out.println(board1);
-    //System.out.println(board1.queenInDanger(7));
+    board1.addQueen(5, 4);
+    // System.out.println(board1);
+    // board1.addQueen(6, 7);
+    //System.out.println(board1);
+    //System.out.println(board1.queenInDanger(4));
+    //System.out.println(board1.toString1());
     board1 = new QueenBoard(4);
+    // board1.addQueen(0, 0);
+    // board1.addQueen(1, 0);
     System.out.println(board1.solve());
+    System.out.println(board1);
 
   }
 
@@ -40,12 +44,16 @@ public class QueenBoard {
     String output = "";
     for (int x = 0; x < board.length; x++) {
       for (int y = 0; y < board.length; y++) {
-        if (board[x]==y) output+="Q ";
+        if (board[y]==x) output+="Q ";
         else output += "_ ";
       }
       output+= "\n";
     }
     return output;
+  }
+
+  public String toString1(){
+    return Arrays.toString(this.board);
   }
 
 
@@ -57,32 +65,18 @@ public class QueenBoard {
   public boolean solve() {
     if (!isEmpty()) throw new IllegalStateException();
     QueenBoard board1 = new QueenBoard(board.length);
-    return solveHelp(board1, board.length);
+    return solveHelp(board1, 0);
   }
 
-  public boolean solveHelp(QueenBoard newboard, int k){
-    if (k==board.length) return true;
-    System.out.println(newboard);
-    for (int x = board.length-k; x < board.length; x++) {
-      newboard.copy();
-      newboard.addQueen(k, x);
-      if (!queenInDanger(x)) return solveHelp(newboard, k-1);
+  public static boolean solveHelp(QueenBoard newboard, int k){
+    if (k==newboard.board.length) return true;
+    for (int x = 0; x < newboard.board.length; x++) {
+      newboard.addQueen(x, k);
+      // System.out.println(newboard);
+      if (!newboard.queenInDanger(k) && solveHelp(newboard, k+1)) return true;
+      newboard.removeQueen(k);
     }
     return false;
-    //if (countQueens()!=0) throw new IllegalStateException();
-    // if (countQueens()==board.length) return true;
-    // else if (r>=board.length && c >= board.length) return false;
-    // for (int x = r; x < board.length; x++) {
-    //   for (int y = c; y < board.length; y++) {
-    //     if (board[x][y]==0) addQueen(x,y);
-    //     System.out.println(this.toString());
-    //     if (queenInDanger(x, y)){
-    //       removeQueen(x,y);
-    //       //return solve(r, c+1);
-    //     }
-    //   }
-    // }
-    // return solve(r+1, c+1);
   }
 
   /**
@@ -97,7 +91,7 @@ public class QueenBoard {
   public int countSolutionsHelp(QueenBoard newboard, int k){
     if (k==board.length) return 1;
     int total = 0;
-    for (int x = board.length-k; x < board.length; x++) {
+    for (int x = k; x < board.length; x++) {
       newboard = new QueenBoard(board.length);
       newboard.addQueen(k, x);
       if (!queenInDanger(x)) total+= countSolutionsHelp(newboard, k+1);
@@ -123,27 +117,21 @@ public class QueenBoard {
 
   private boolean queenInDanger(int idx) {
      for (int x = 0; x < board.length; x++) {
-       if (board[x]!=-1&&board[x]==board[idx]) return true;
-       if (board[x]!=-1&&Math.abs(board[idx] - board[x])==Math.abs(idx-x)) return true;
+       if (x!=idx&&board[x]==board[idx]) return true;
+       if (x!=idx && board[x]!=-1 && Math.abs(board[idx] - board[x])==Math.abs(idx-x)) return true;
      }
-    //   for (int y = 0; y < board[0].length; y++) {
-    //     if (x!=r&&board[x][c]==1) return true;
-    //     if (y!=c&&board[r][y]==1) return true;
-    //     if (x!=r && y!=c && (c-y)==(r-x) && board[x][y]==1) return true;
-    //     if (x!=r && y!=c && (c-y)==(x-r) && board[x][y]==1) return true;
-    //   }
     return false;
   }
 
   private boolean addQueen(int r, int c) {
-    board[r] = c;
+    board[c] = r;
     return true;
   }
 
-  // private boolean removeQueen(int r, int c) {
-  //   board[r][c] = 2;
-  //   return true;
-  // }
+  private boolean removeQueen(int r) {
+    board[r] = -1;
+    return true;
+  }
 
   // private int countQueens() {
   //   int output = 0;
