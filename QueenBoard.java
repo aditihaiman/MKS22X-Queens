@@ -3,23 +3,6 @@ import java.util.*;
 
 public class QueenBoard {
 
-  public static void main(String[] args) {
-    QueenBoard board1 = new QueenBoard(10);
-    // board1.addQueen(5, 4);
-    //  System.out.println(board1);
-    //  board1.addQueen(6, 9);
-    // System.out.println(board1);
-    // System.out.println(board1.queenInDanger(9));
-    //System.out.println(board1.toString1());
-    board1 = new QueenBoard(10);
-    // board1.addQueen(0, 0);
-    // board1.addQueen(1, 0);
-    //System.out.println(board1.solve());
-    //System.out.println(board1);
-    System.out.println(board1.countSolutions());
-
-  }
-
   private int[] board;
 
   public QueenBoard(int size) {
@@ -35,9 +18,9 @@ public class QueenBoard {
   *all others are displayed as underscores '_'
   *There are spaces between each symbol:
   *"""_ _ Q _
-  *Q _ _ _
-  *_ _ _ Q
-  *_ Q _ _"""
+  *   Q _ _ _
+  *   _ _ _ Q
+  *   _ Q _ _"""
   *(pythonic string notation for clarity,
   *excludes the character up to the *)
   */
