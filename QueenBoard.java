@@ -5,7 +5,7 @@ public class QueenBoard {
 
   private int[] board;
 
-  public QueenBoard(int size) {
+  public QueenBoard(int size) { //CONSTRUCTOR
     board = new int[size];
     for (int x = 0; x < size; x++) {
         board[x] = -1;
@@ -36,7 +36,7 @@ public class QueenBoard {
     return output;
   }
 
-  public String toString1(){
+  public String toString1(){ //for debugging
     return Arrays.toString(this.board);
   }
 
@@ -53,12 +53,12 @@ public class QueenBoard {
   }
 
   public static boolean solveHelp(QueenBoard newboard, int k){
-    if (k==newboard.board.length) return true;
+    if (k==newboard.board.length) return true;  // Base case when last column has been reached
     for (int x = 0; x < newboard.board.length; x++) {
       newboard.addQueen(x, k);
       // System.out.println(newboard);
-      if (!newboard.queenInDanger(k) && solveHelp(newboard, k+1)) return true;
-      newboard.removeQueen(k);
+      if (!newboard.queenInDanger(k) && solveHelp(newboard, k+1)) return true; //recursive step when another queen can be added
+      newboard.removeQueen(k); //backtracking step
     }
     return false;
   }
@@ -75,14 +75,14 @@ public class QueenBoard {
   }
 
   public static int countSolutionsHelp(QueenBoard newboard, int k){
-    if (k==newboard.board.length){
+    if (k==newboard.board.length){ //base case returns 1 only when it reaches a solution
       //System.out.println(newboard);
       return 1;
     }
     int total = 0;
-    for (int x = 0; x < newboard.board.length; x++) {
+    for (int x = 0; x < newboard.board.length; x++) { //sums up every possible solution 
       newboard.addQueen(x, k);
-      if (!newboard.queenInDanger(k)) total+= countSolutionsHelp(newboard, k+1);
+      if (!newboard.queenInDanger(k)) total+= countSolutionsHelp(newboard, k+1); //add to total sum instead of returning true
       newboard.removeQueen(k);
     }
     return total;
@@ -90,14 +90,14 @@ public class QueenBoard {
 
   //---------------- HELPER METHODS -----------------//
 
-  private boolean isEmpty() {
+  private boolean isEmpty() { //for exceptions when the input board must be empty
     for (int x = 0; x < board.length; x++) {
       if (board[x]!= -1) return false;
     }
     return true;
   }
 
-  private boolean queenInDanger(int idx) {
+  private boolean queenInDanger(int idx) { //checks if a queen is in the way of another queen when placed
      for (int x = 0; x < board.length; x++) {
        if (x!=idx&&board[x]==board[idx]) return true;
        if (x!=idx && board[x]!=-1 && Math.abs(board[idx] - board[x])==Math.abs(idx-x)) return true;
